@@ -1,4 +1,5 @@
-== Bitcoin SegWit vanity address generator
+Bitcoin SegWit vanity address generator
+=======================================
 
 This is a simple Bitcoin SegWit [vanity address](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch04.asciidoc#vanity-addresses) generator.
 
