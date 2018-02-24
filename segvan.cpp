@@ -1,5 +1,7 @@
 #include <cstdlib>
 #include <iostream>
+#include <regex>
+
 #include <sodium.h>
 #include <bitcoin/bitcoin.hpp>
 
@@ -7,6 +9,9 @@ using namespace bc;
 using namespace libbitcoin::chain;
 using namespace libbitcoin::machine;
 using namespace libbitcoin::wallet;
+
+std::regex mainnet_p2sh_pattern("^3[a-km-zA-HJ-NP-Z1-9]{1,34}$");
+std::regex testnet_p2sh_pattern("^2[a-km-zA-HJ-NP-Z1-9]{1,34}$");
 
 void usage (void)
 {
@@ -51,11 +56,11 @@ int main (int argc, char** argv)
     }
     std::string pattern = argv[1];
     bool testnet;
-    if (pattern[0] == '2') {
-        testnet = true;
-    }
-    else if (pattern[0] == '3') {
+    if (std::regex_match(pattern, mainnet_p2sh_pattern)) {
         testnet = false;
+    }
+    else if (std::regex_match(pattern, testnet_p2sh_pattern)) {
+        testnet = true;
     }
     else {
         std::cerr << "Invalid address patern " << pattern << std::endl;
@@ -69,7 +74,11 @@ int main (int argc, char** argv)
         if (!address.empty()) {
             //std::cout << "Trying " << address << std::endl;
             if (address.compare(0, pattern.size(), pattern) == 0) {
-                std::cout << "Found vanity address! " << address << std::endl;
+                std::cout << "Found vanity address! " << address;
+                if (testnet) {
+                    std::cout << " (testnet)";
+                }
+                std::cout << std::endl;
                 ec_private privkey(secret, 0x8000, true);
                 std::cout << "Private key: " << privkey.encoded() << std::endl;
                 return EXIT_SUCCESS;
