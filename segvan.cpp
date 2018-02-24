@@ -1,3 +1,4 @@
+#include <cctype>
 #include <cstdlib>
 #include <iostream>
 #include <mutex>
@@ -17,6 +18,7 @@ std::regex mainnet_p2sh_pattern("^3[a-km-zA-HJ-NP-Z1-9]{1,34}$");
 std::regex testnet_p2sh_pattern("^2[a-km-zA-HJ-NP-Z1-9]{1,34}$");
 
 bool debug_output = false;
+bool ignore_case = false;
 
 std::string pattern;
 bool testnet;
@@ -28,7 +30,8 @@ void usage (void)
     std::cout <<
         "Usage: segvan [options] pattern\n"
         "Options:\n"
-        "\t-d\t\tEnable debug output\n"
+        "\t-d\tEnable debug output\n"
+        "\t-i\tCase insensitive matching\n"
         "\t-t num\tNumber of CPU threads to use (default 1)" << std::endl;
 }
 
@@ -62,6 +65,22 @@ std::string p2sh_address (const ec_secret& secret, bool testnet)
     return "";
 }
 
+bool match_found (const std::string& address, const std::string& pattern, bool ignore_case)
+{
+    if (ignore_case) {
+        auto addr_it = address.begin();
+        for (auto it = pattern.begin(); it != pattern.end(); ++it, ++addr_it) {
+            if (*it != std::tolower(*addr_it)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    else {
+        return (address.compare(0, pattern.size(), pattern) == 0);
+    }
+}
+
 void vanity_thread (int tid)
 {
     while (true)
@@ -74,7 +93,7 @@ void vanity_thread (int tid)
                 std::cout << "[Thread " << tid << "] Trying " << address << std::endl;
                 mtx.unlock();
             }
-            if (address.compare(0, pattern.size(), pattern) == 0) {
+            if (match_found(address, pattern, ignore_case)) {
                 mtx.lock();
                 std::cout << "Found vanity address! " << address;
                 if (testnet) {
@@ -99,10 +118,13 @@ int main (int argc, char** argv)
     int num_threads = 1;
 
     int c;
-    while ((c = getopt(argc, argv, "dt:")) != -1) {
+    while ((c = getopt(argc, argv, "dit:")) != -1) {
         switch (c) {
             case 'd':
                 debug_output = true;
+                break;
+            case 'i':
+                ignore_case = true;
                 break;
             case 't':
                 num_threads = atoi(optarg);
@@ -133,6 +155,9 @@ int main (int argc, char** argv)
 
     if (debug_output) {
         std::cout << "Searching for address beginning with " << pattern;
+        if (ignore_case) {
+            std::cout << " (case insensitive)";
+        }
         if (testnet) {
             std::cout << " (testnet)";
         }
@@ -144,7 +169,7 @@ int main (int argc, char** argv)
     }
 
     if (num_threads <= 1) {
-        vanity_thread(1);
+        vanity_thread(0);
     }
     else {
         std::thread t[num_threads];
