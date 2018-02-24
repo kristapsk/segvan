@@ -6,6 +6,8 @@
 #include <thread>
 #include <unistd.h>
 
+#include <boost/algorithm/string.hpp>
+
 #include <sodium.h>
 #include <bitcoin/bitcoin.hpp>
 
@@ -140,6 +142,9 @@ int main (int argc, char** argv)
     }
 
     pattern = argv[optind];
+    if (ignore_case) {
+        boost::algorithm::to_lower(pattern);
+    }
 
     if (std::regex_match(pattern, mainnet_p2sh_pattern)) {
         testnet = false;
