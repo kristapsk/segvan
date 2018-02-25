@@ -3,13 +3,24 @@ Bitcoin SegWit vanity address generator
 
 This is a simple Bitcoin SegWit [vanity address](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch04.asciidoc#vanity-addresses) generator.
 
-For building you will need `CMake`, `libbitcoin` and `libsodium`.
+Inspired by the vanity address miner for the P2PKH non-SegWit addresses from the book ["Mastering Bitcoin" by Andreas Antonopoulos](https://github.com/bitcoinbook/bitcoinbook/). I put this code under public domain, you can do whatever you want with it.
+
+For building you will need C++11 compatible compiler, `CMake`, `libbitcoin` and `libsodium`.
 ```
 $ cmake .
 $ make VERBOSE=1
 ```
 
 Usage:
+```
+Usage: segvan [options] pattern
+Options:
+        -d      Enable debug output
+        -i      Case insensitive matching
+        -t num  Number of CPU threads to use (default 1)
+```
+
+Example:
 ```
 $ segvan 3Kids
 Found vanity address! 3KidsZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
