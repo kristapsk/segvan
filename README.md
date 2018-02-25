@@ -22,14 +22,18 @@ Options:
 
 Example:
 ```
-$ segvan 3Kids
+$ time ./segvan 3Kids
 Found vanity address! 3KidsZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
-Private key: PKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPK
+Private key: KPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKP
+
+real    47m28.866s
+user    44m58.046s
+sys     2m30.354s
 ```
 
 Then use Bitcoin Core 0.15.x console:
 ```
-> importprivkey PKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPK "Vanity test" false
+> importprivkey KPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKP "Vanity test" false
 (null)
 > getaddressesbyaccount "Vanity test"
 [
