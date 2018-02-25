@@ -1,3 +1,11 @@
+/*
+ * Bitcoin SegWit vanity address generator
+ * By Kristaps Kaupe. Licensed under public domain.
+ *
+ * https://github.com/kristapsk/segvan
+ *
+ */
+
 #include <cctype>
 #include <cstdlib>
 #include <iostream>
