@@ -5,7 +5,7 @@ This is a simple Bitcoin SegWit [vanity address](https://github.com/bitcoinbook/
 
 Inspired by the vanity address miner for the P2PKH non-SegWit addresses from the book ["Mastering Bitcoin" by Andreas Antonopoulos](https://github.com/bitcoinbook/bitcoinbook/). I put this code under public domain, you can do whatever you want with it.
 
-For building you will need C++11 compatible compiler, `CMake`, `libbitcoin` and `libsodium`.
+For building you will need C++11 compatible compiler, `CMake`, `libbitcoin`, `libsodium`, and [`secp256k1`](https://github.com/bitcoin-core/secp256k1) .
 ```
 $ cmake .
 $ make VERBOSE=1
