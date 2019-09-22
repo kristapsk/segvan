@@ -31,16 +31,34 @@ user    44m58.046s
 sys     2m30.354s
 ```
 
-Then use Bitcoin Core 0.15.x console:
+Then use Bitcoin Core console (or `bitcoin-cli`).
+
+With Bitcoin Core 0.17 and newer:
+```
+> importprivkey KPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKP "Vanity test" false
+(null)
+> getaddressesbylabel "Vanity test"
+[
+  "1ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ": {
+    "purpose": "receive"
+  },
+  "3ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ": {
+    "purpose": "receive"
+  },
+  "bc1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz": {
+    "purpose": "receive"
+  }
+]
+```
+
+With Bitcoin Core 0.16.3:
 ```
 > importprivkey KPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKPKP "Vanity test" false
 (null)
 > getaddressesbyaccount "Vanity test"
 [
-  "1ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"
+  "1ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
+  "3ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
+  "bc1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
 ]
-> addwitnessaddress 1ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
-3KidsZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 ```
-
-
