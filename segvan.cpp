@@ -152,6 +152,9 @@ int main (int argc, char** argv)
     pattern = argv[optind];
     if (ignore_case) {
         boost::algorithm::to_lower(pattern);
+
+        // lowercase 'l' not a valid char; will fail regex test
+        boost::algorithm::replace_all(pattern, "l", "L");
     }
 
     if (std::regex_match(pattern, mainnet_p2sh_pattern)) {
@@ -165,6 +168,12 @@ int main (int argc, char** argv)
         usage();
         abort();
     }
+
+    if (ignore_case) {
+        // Now that we're past the pattern checks, lowercase everything again
+        boost::algorithm::to_lower(pattern);
+    }
+
 
     if (debug_output) {
         std::cout << "Searching for address beginning with " << pattern;
