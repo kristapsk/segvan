@@ -170,7 +170,7 @@ int main (int argc, char** argv)
     }
 
     if (ignore_case) {
-        // Now that we're passed the pattern checks, lowercase everything again
+        // Now that we're past the pattern checks, lowercase everything again
         boost::algorithm::to_lower(pattern);
     }
 
